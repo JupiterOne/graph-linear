@@ -1,6 +1,5 @@
 # Linear
 
-
 <!-- {J1_DOCUMENTATION_MARKER_START} -->
 <!--
 ********************************************************************************
@@ -18,9 +17,9 @@ https://github.com/JupiterOne/sdk/blob/main/docs/integrations/development.md
 
 The following entities are created:
 
-| Resources    | Entity `_type` | Entity `_class`    |
-| ------------ | -------------- | ------------------ |
-| Organization | `Account`      | `linear_workspace` |
+| Resources    | Entity `_type`        | Entity `_class` |
+| ------------ | --------------------- | --------------- |
+| Organization | `linear_organizatino` | `Account`       |
 
 <!--
 ********************************************************************************
