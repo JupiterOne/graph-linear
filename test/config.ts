@@ -12,7 +12,6 @@ if (process.env.LOAD_ENV) {
 }
 
 export const integrationConfig: IntegrationConfig = {
-  // TODO: replace
   accessToken: process.env['ACCESS_TOKEN'] || '',
 };
 

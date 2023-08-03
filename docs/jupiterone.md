@@ -19,7 +19,7 @@ The following entities are created:
 
 | Resources    | Entity `_type`        | Entity `_class` |
 | ------------ | --------------------- | --------------- |
-| Organization | `linear_organizatino` | `Account`       |
+| Organization | `linear_organization` | `Account`       |
 
 <!--
 ********************************************************************************
