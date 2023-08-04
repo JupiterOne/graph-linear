@@ -5,7 +5,7 @@ import {
 import { IntegrationConfig } from '../../config';
 import { Entities, Steps } from '../constants';
 import { APIClient } from '../../client';
-import { createAccountEntity } from './converter';
+import { createOrganizationEntity } from './converter';
 
 export const fetchOrganization = async ({
   jobState,
@@ -14,7 +14,7 @@ export const fetchOrganization = async ({
   const client = new APIClient(instance.config);
   const organization = await client.getOrganization();
 
-  await jobState.addEntity(createAccountEntity(organization));
+  await jobState.addEntity(createOrganizationEntity(organization));
 };
 
 export const organizationSteps: IntegrationStep<IntegrationConfig>[] = [
