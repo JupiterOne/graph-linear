@@ -19,21 +19,20 @@ export const fetchUsers = async ({
   const users = await client.getUsers();
 
   for (const user of users) {
-    const userEntity = createUserEntity(user);
-    await jobState.addEntity(userEntity);
     const organization = await user.organization;
-    if (organization) {
-      const organizationEntity = await jobState.findEntity(
-        createEntityKey(Entities.ORGANIZATION, organization.id),
+    const userEntity = createUserEntity(user, organization);
+    await jobState.addEntity(userEntity);
+
+    const organizationEntity = await jobState.findEntity(
+      createEntityKey(Entities.ORGANIZATION, organization.id),
+    );
+    if (organizationEntity) {
+      await jobState.addRelationship(
+        createOrganizationHasUserRelationship({
+          organizationEntity,
+          userEntity,
+        }),
       );
-      if (organizationEntity) {
-        await jobState.addRelationship(
-          createOrganizationHasUserRelationship({
-            organizationEntity,
-            userEntity,
-          }),
-        );
-      }
     }
   }
 };
