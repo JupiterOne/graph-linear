@@ -22,6 +22,7 @@ The following entities are created:
 | Organization | `linear_organization` | `Account`           |
 | Project      | `linear_project`      | `Project`           |
 | Team         | `linear_team`         | `Team`, `UserGroup` |
+| User         | `linear_user`         | `User`              |
 
 ### Relationships
 
@@ -30,6 +31,7 @@ The following relationships are created:
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
 | `linear_organization` | **HAS**               | `linear_team`         |
+| `linear_organization` | **HAS**               | `linear_user`         |
 | `linear_team`         | **HAS**               | `linear_project`      |
 
 <!--

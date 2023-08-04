@@ -9,7 +9,7 @@ import {
   createProjectEntity,
   createTeamProjectRelationship,
 } from './converter';
-import { createEntityKey } from '../entityKeyUtil';
+import { createEntityKey } from '../../helpers';
 
 export const fetchProjects = async ({
   jobState,
@@ -25,7 +25,7 @@ export const fetchProjects = async ({
     await jobState.addEntity(projectEntity);
 
     const teamsEntityKeys = teams.map((team) =>
-      createEntityKey(Entities.TEAM._type, team.id),
+      createEntityKey(Entities.TEAM, team.id),
     );
 
     for (const teamEntityKey of teamsEntityKeys) {
@@ -33,8 +33,8 @@ export const fetchProjects = async ({
       if (teamEntity) {
         await jobState.addRelationship(
           createTeamProjectRelationship({
-            team: teamEntity,
-            project: projectEntity,
+            teamEntity: teamEntity,
+            projectEntity: projectEntity,
           }),
         );
       }

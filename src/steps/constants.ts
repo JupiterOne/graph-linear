@@ -3,17 +3,21 @@ import {
   StepEntityMetadata,
   StepRelationshipMetadata,
 } from '@jupiterone/integration-sdk-core';
+import { generateRelationshipMetadata } from '../helpers';
 
-export const Steps: Record<string, string> = {
+export const Steps = {
   ORGANIZATION: 'fetch-organization',
   TEAM: 'fetch-teams',
   PROJECT: 'fetch-projects',
-};
+  USERS: 'fetch-users',
+} satisfies Record<string, `fetch-${string}`>;
 
-export const Entities: Record<
-  'ORGANIZATION' | 'TEAM' | 'PROJECT',
-  StepEntityMetadata
-> = {
+export const Entities = {
+  USER: {
+    resourceName: 'User',
+    _type: 'linear_user',
+    _class: ['User'],
+  },
   ORGANIZATION: {
     resourceName: 'Organization',
     _type: 'linear_organization',
@@ -29,19 +33,22 @@ export const Entities: Record<
     _type: 'linear_project',
     _class: ['Project'],
   },
-};
+} satisfies Record<string, StepEntityMetadata>;
 
-export const Relationships: Record<string, StepRelationshipMetadata> = {
-  ORGANIZATION_HAS_TEAM: {
-    _type: 'linear_organization_has_team',
-    sourceType: Entities.ORGANIZATION._type,
+export const Relationships = {
+  ORGANIZATION_HAS_TEAM: generateRelationshipMetadata({
     _class: RelationshipClass.HAS,
-    targetType: Entities.TEAM._type,
-  },
-  TEAM_HAS_PROJECT: {
-    _type: 'linear_team_has_project',
-    sourceType: Entities.TEAM._type,
+    from: Entities.ORGANIZATION,
+    to: Entities.TEAM,
+  }),
+  TEAM_HAS_PROJECT: generateRelationshipMetadata({
     _class: RelationshipClass.HAS,
-    targetType: Entities.PROJECT._type,
-  },
-};
+    from: Entities.TEAM,
+    to: Entities.PROJECT,
+  }),
+  ORGANIZATION_HAS_USER: generateRelationshipMetadata({
+    _class: RelationshipClass.HAS,
+    from: Entities.ORGANIZATION,
+    to: Entities.USER,
+  }),
+} satisfies Record<string, StepRelationshipMetadata>;

@@ -1,8 +1,8 @@
 import { Organization } from '@linear/sdk';
-import { createAccountEntity } from './converter';
-import { createEntityKey } from '../entityKeyUtil';
 import { Entities } from '../constants';
 import { parseTimePropertyValue } from '@jupiterone/integration-sdk-core';
+import { createEntityKey } from '../../helpers';
+import { createOrganizationEntity } from './converter';
 
 describe('converting a Linear organization to a j1 entity', () => {
   const organization: Partial<Organization> = {
@@ -17,11 +17,11 @@ describe('converting a Linear organization to a j1 entity', () => {
     createdIssueCount: 100,
   };
 
-  const entity = createAccountEntity(organization as Organization);
+  const entity = createOrganizationEntity(organization as Organization);
 
   test('should include entity core properties', () => {
     expect(entity._key).toEqual(
-      createEntityKey(Entities.ORGANIZATION._type, organization.id!),
+      createEntityKey(Entities.ORGANIZATION, organization.id!),
     );
     expect(entity._class).toEqual(Entities.ORGANIZATION._class);
     expect(entity._type).toEqual(Entities.ORGANIZATION._type);

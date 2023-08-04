@@ -1,8 +1,8 @@
 import { Project } from '@linear/sdk';
-import { createEntityKey } from '../entityKeyUtil';
 import { Entities } from '../constants';
 import { parseTimePropertyValue } from '@jupiterone/integration-sdk-core';
 import { createProjectEntity } from './converter';
+import { createEntityKey } from '../../helpers';
 
 describe('converting a Linear project to a j1 entity', () => {
   const project: Partial<Project> = {
@@ -19,7 +19,7 @@ describe('converting a Linear project to a j1 entity', () => {
 
   test('should include entity core properties', () => {
     expect(projectEntity._key).toEqual(
-      createEntityKey(Entities.PROJECT._type, project.id!),
+      createEntityKey(Entities.PROJECT, project.id!),
     );
     expect(projectEntity._class).toEqual(Entities.PROJECT._class);
     expect(projectEntity._type).toEqual(Entities.PROJECT._type);
