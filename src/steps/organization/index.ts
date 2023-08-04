@@ -15,7 +15,10 @@ export const fetchOrganization = async ({
   const client = getOrCreateAPIClient(instance.config, logger);
   const organization = await client.getOrganization();
 
-  await jobState.addEntity(createOrganizationEntity(organization));
+  const organizationEntity = await jobState.addEntity(
+    createOrganizationEntity(organization),
+  );
+  await jobState.setData('organization', organizationEntity);
 };
 
 export const organizationSteps: IntegrationStep<IntegrationConfig>[] = [

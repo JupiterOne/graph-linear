@@ -10,7 +10,10 @@ export const Steps = {
   TEAM: 'fetch-teams',
   PROJECT: 'fetch-projects',
   USERS: 'fetch-users',
-} satisfies Record<string, `fetch-${string}`>;
+  ISSUE: 'fetch-issues',
+  RELATE_ISSUES_TO_ISSUES: 'relate-issues-to-issues',
+  RELATE_PROJECTS_TO_USERS: 'relate-projects-to-users',
+} satisfies Record<string, string>;
 
 export const Entities = {
   USER: {
@@ -33,6 +36,11 @@ export const Entities = {
     _type: 'linear_project',
     _class: ['Project'],
   },
+  ISSUE: {
+    resourceName: 'Issue',
+    _type: 'linear_issue',
+    _class: ['Record', 'Issue'],
+  },
 } satisfies Record<string, StepEntityMetadata>;
 
 export const Relationships = {
@@ -50,5 +58,40 @@ export const Relationships = {
     _class: RelationshipClass.HAS,
     from: Entities.ORGANIZATION,
     to: Entities.USER,
+  }),
+  TEAM_HAS_USER: generateRelationshipMetadata({
+    _class: RelationshipClass.HAS,
+    from: Entities.TEAM,
+    to: Entities.USER,
+  }),
+  PROJECT_HAS_USER: generateRelationshipMetadata({
+    _class: RelationshipClass.HAS,
+    from: Entities.PROJECT,
+    to: Entities.USER,
+  }),
+  TEAM_HAS_ISSUE: generateRelationshipMetadata({
+    _class: RelationshipClass.HAS,
+    from: Entities.TEAM,
+    to: Entities.ISSUE,
+  }),
+  PROJECT_HAS_ISSUE: generateRelationshipMetadata({
+    _class: RelationshipClass.HAS,
+    from: Entities.PROJECT,
+    to: Entities.ISSUE,
+  }),
+  USER_CREATED_ISSUE: generateRelationshipMetadata({
+    _class: RelationshipClass.CREATED,
+    from: Entities.USER,
+    to: Entities.ISSUE,
+  }),
+  USER_ASSIGNED_ISSUE: generateRelationshipMetadata({
+    _class: RelationshipClass.ASSIGNED,
+    from: Entities.USER,
+    to: Entities.ISSUE,
+  }),
+  ISSUE_CONTAINS_ISSUE: generateRelationshipMetadata({
+    _class: RelationshipClass.CONTAINS,
+    from: Entities.ISSUE,
+    to: Entities.ISSUE,
   }),
 } satisfies Record<string, StepRelationshipMetadata>;

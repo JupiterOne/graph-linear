@@ -99,6 +99,13 @@ export class APIClient {
     return teams;
   }
 
+  public async getUsersForProjectId(projectId: string): Promise<User[]> {
+    const project = await this.linearClient.project(projectId);
+    return await this.fetchPaginatedData<User>(
+      async (after) => await project.members({ after }),
+    );
+  }
+
   async fetchPaginatedData<T>(
     fetchFunction: (cursor?: string) => Promise<PaginatedResponse<T>>,
   ): Promise<T[]> {
