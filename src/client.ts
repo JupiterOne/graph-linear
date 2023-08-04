@@ -8,6 +8,7 @@ import {
   User,
 } from '@linear/sdk';
 import { IntegrationConfig } from './config';
+import { IntegrationError } from '@jupiterone/integration-sdk-core';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -38,8 +39,16 @@ export class APIClient {
   });
 
   public async verifyAuthentication(): Promise<void> {
-    const me = await this.linearClient.viewer;
-    if (me.createdAt) return;
+    // TODO: extract the try/catch into helper
+    try {
+      const me = await this.linearClient.viewer;
+      if (me.createdAt) return;
+    } catch (err) {
+      throw new IntegrationError({
+        message: err.message,
+        code: err.code,
+      });
+    }
   }
 
   public async getOrganization(): Promise<Organization> {

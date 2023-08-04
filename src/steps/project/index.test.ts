@@ -6,15 +6,8 @@ import { setupProjectRecording } from '../../../test/recording';
 import { buildStepTestConfigForStep } from '../../../test/config';
 import { Steps } from '../constants';
 
-describe('Fetch organization step', () => {
+describe('Fetch teams step', () => {
   let recording: Recording;
-
-  beforeEach(() => {
-    recording = setupProjectRecording({
-      directory: __dirname,
-      name: 'fetch-organization',
-    });
-  });
 
   afterEach(async () => {
     if (recording) {
@@ -22,8 +15,13 @@ describe('Fetch organization step', () => {
     }
   });
 
-  test('fetches organization correctly', async () => {
-    const stepConfig = buildStepTestConfigForStep(Steps.ORGANIZATION);
+  test('fetches projects correctly', async () => {
+    recording = setupProjectRecording({
+      directory: __dirname,
+      name: 'fetch-projects',
+    });
+
+    const stepConfig = buildStepTestConfigForStep(Steps.PROJECT);
     const stepResult = await executeStepWithDependencies(stepConfig);
     expect(stepResult).toMatchStepMetadata(stepConfig);
   });
