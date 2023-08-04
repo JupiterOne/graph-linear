@@ -1,20 +1,18 @@
 import {
   Entity,
-  RelationshipClass,
-  createDirectRelationship,
   createIntegrationEntity,
   parseTimePropertyValue,
 } from '@jupiterone/integration-sdk-core';
 import { Project } from '@linear/sdk';
-import { Entities } from '../constants';
-import { createEntityKey } from '../entityKeyUtil';
+import { Entities, Relationships } from '../constants';
+import { createEntityKey, createRelationship } from '../../helpers';
 
 export const createProjectEntity = (project: Project): Entity => {
   return createIntegrationEntity({
     entityData: {
       source: project,
       assign: {
-        _key: createEntityKey(Entities.PROJECT._type, project.id),
+        _key: createEntityKey(Entities.PROJECT, project.id),
         _class: Entities.PROJECT._class,
         _type: Entities.PROJECT._type,
         displayName: project.name,
@@ -29,15 +27,15 @@ export const createProjectEntity = (project: Project): Entity => {
 };
 
 export const createTeamProjectRelationship = ({
-  team,
-  project,
+  teamEntity,
+  projectEntity,
 }: {
-  team: Entity;
-  project: Entity;
+  teamEntity: Entity;
+  projectEntity: Entity;
 }) => {
-  return createDirectRelationship({
-    from: team,
-    to: project,
-    _class: RelationshipClass.HAS,
+  return createRelationship({
+    relationship: Relationships.TEAM_HAS_PROJECT,
+    from: teamEntity,
+    to: projectEntity,
   });
 };
