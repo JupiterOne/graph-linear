@@ -5,13 +5,14 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import { Organization } from '@linear/sdk';
 import { Entities } from '../constants';
+import { createEntityKey } from '../entityKeyUtil';
 
 export const createAccountEntity = (organization: Organization): Entity => {
   return createIntegrationEntity({
     entityData: {
       source: organization,
       assign: {
-        _key: `account-${organization.id}`,
+        _key: createEntityKey(Entities.ORGANIZATION._type, organization.id),
         _class: Entities.ORGANIZATION._class,
         _type: Entities.ORGANIZATION._type,
         displayName: organization.name,

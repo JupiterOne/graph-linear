@@ -87,6 +87,16 @@ export class APIClient {
     return issues;
   }
 
+  public async getTeamsForProject(project: Project): Promise<Team[]> {
+    const fetchFunction = async (cursor?: string) =>
+      await project.teams({
+        after: cursor,
+      });
+
+    const teams = await this.fetchPaginatedData<Team>(fetchFunction);
+    return teams;
+  }
+
   async fetchPaginatedData<T>(
     fetchFunction: (cursor?: string) => Promise<PaginatedResponse<T>>,
   ): Promise<T[]> {
@@ -105,6 +115,11 @@ export class APIClient {
   }
 
   // TODO: retry helper to handle rate limits (and other errors?)
+  // import {
+  //   AttemptContext,
+  //   retry as attemptRetry,
+  //   sleep,
+  // } from '@lifeomic/attempt';
   // async requestWithRetry<T>(query: LinearFetch<T>) {
   //   let retryCounter = 0;
 

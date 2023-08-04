@@ -22,7 +22,7 @@ export const Entities: Record<
   TEAM: {
     resourceName: 'Team',
     _type: 'linear_team',
-    _class: ['UserGroup'],
+    _class: ['Team', 'UserGroup'],
   },
   PROJECT: {
     resourceName: 'Project',
@@ -33,14 +33,14 @@ export const Entities: Record<
 
 export const Relationships: Record<string, StepRelationshipMetadata> = {
   ORGANIZATION_HAS_TEAM: {
-    _type: 'linear_organization_has_linear_team',
+    _type: 'linear_organization_has_team',
     sourceType: Entities.ORGANIZATION._type,
     _class: RelationshipClass.HAS,
     targetType: Entities.TEAM._type,
   },
-  ORGANIZATION_HAS_PROJECT: {
-    _type: 'linear_organization_has_linear_project',
-    sourceType: Entities.ORGANIZATION._type,
+  TEAM_HAS_PROJECT: {
+    _type: 'linear_team_has_project',
+    sourceType: Entities.TEAM._type,
     _class: RelationshipClass.HAS,
     targetType: Entities.PROJECT._type,
   },
