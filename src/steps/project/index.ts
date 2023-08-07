@@ -4,7 +4,7 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
-import { APIClient } from '../../client';
+import { getOrCreateAPIClient } from '../../client';
 import {
   createProjectEntity,
   createTeamProjectRelationship,
@@ -14,8 +14,9 @@ import { createEntityKey } from '../../helpers';
 export const fetchProjects = async ({
   jobState,
   instance,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
-  const client = new APIClient(instance.config);
+  const client = getOrCreateAPIClient(instance.config, logger);
   const projects = await client.getProjects();
 
   for (const project of projects) {
@@ -33,8 +34,8 @@ export const fetchProjects = async ({
       if (teamEntity) {
         await jobState.addRelationship(
           createTeamProjectRelationship({
-            teamEntity: teamEntity,
-            projectEntity: projectEntity,
+            teamEntity,
+            projectEntity,
           }),
         );
       }

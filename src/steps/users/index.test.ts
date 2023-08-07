@@ -6,7 +6,7 @@ import { setupProjectRecording } from '../../../test/recording';
 import { buildStepTestConfigForStep } from '../../../test/config';
 import { Steps } from '../constants';
 
-describe('Fetch organization step', () => {
+describe('Fetch users step', () => {
   let recording: Recording;
 
   afterEach(async () => {
@@ -21,9 +21,6 @@ describe('Fetch organization step', () => {
       name: 'fetch-users',
     });
 
-    await executeStepWithDependencies(
-      buildStepTestConfigForStep(Steps.ORGANIZATION),
-    );
     const stepConfig = buildStepTestConfigForStep(Steps.USERS);
     const stepResult = await executeStepWithDependencies(stepConfig);
     expect(stepResult).toMatchStepMetadata(stepConfig);

@@ -8,7 +8,9 @@ import {
   User,
 } from '@linear/sdk';
 import { IntegrationConfig } from './config';
-import { IntegrationError } from '@jupiterone/integration-sdk-core';
+import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
+
+import { wrapWithRetry } from './wrapWithRetry';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -16,10 +18,6 @@ interface PaginatedResponse<T> {
   nodes: T[];
   pageInfo: PageInfo;
 }
-
-// When authenticated using an API key you can make up to 1,500 requests per hour. Requests are associated with the authenticated user, which means all requests by the same user share the same quota even when using different API keys.
-
-// Requests authenticated using an API key can request up to 250,000 points per hour.**Complexity points
 
 /**
  * An APIClient maintains authentication state and provides an interface to
@@ -30,29 +28,24 @@ interface PaginatedResponse<T> {
  * resources.
  */
 export class APIClient {
-  constructor(readonly config: IntegrationConfig) {}
-
-  // private MAX_RETRIES = 3;
+  constructor(
+    readonly config: IntegrationConfig,
+    readonly logger: IntegrationLogger,
+  ) {}
 
   private linearClient = new LinearClient({
     apiKey: this.config.accessToken,
   });
 
   public async verifyAuthentication(): Promise<void> {
-    // TODO: extract the try/catch into helper
-    try {
-      const me = await this.linearClient.viewer;
-      if (me.createdAt) return;
-    } catch (err) {
-      throw new IntegrationError({
-        message: err.message,
-        code: err.code,
-      });
-    }
+    const me = await wrapWithRetry({
+      fetchFunction: () => this.linearClient.viewer,
+      logger: this.logger,
+    })();
+    if (me.createdAt) return;
   }
 
   public async getOrganization(): Promise<Organization> {
-    // TODO: wrap in error handling
     return await this.linearClient.organization;
   }
 
@@ -114,39 +107,27 @@ export class APIClient {
     const data: T[] = [];
 
     do {
-      const response = await fetchFunction(endCursor);
-      hasMore = response.pageInfo.hasNextPage;
-      endCursor = response.pageInfo.endCursor;
-      data.push(...response.nodes);
+      const response = await wrapWithRetry({
+        fetchFunction: () => fetchFunction(endCursor),
+        logger: this.logger,
+      })();
+      hasMore = response?.pageInfo.hasNextPage || false;
+      endCursor = response?.pageInfo.endCursor;
+      data.push(...(response?.nodes || []));
     } while (hasMore);
 
     return data;
   }
-
-  // TODO: retry helper to handle rate limits (and other errors?)
-  // import {
-  //   AttemptContext,
-  //   retry as attemptRetry,
-  //   sleep,
-  // } from '@lifeomic/attempt';
-  // async requestWithRetry<T>(query: LinearFetch<T>) {
-  //   let retryCounter = 0;
-
-  //   do {
-  //     try {
-  //       const response = await query;
-  //       return response;
-  //     } catch (error) {
-  //       if (error instanceof RatelimitedLinearError) {
-  //          TODO: get details for rate limit time reset
-  //       }
-
-  //       retryCounter++;
-  //     }
-  //   } while (retryCounter < this.MAX_RETRIES);
-  // }
 }
 
-export function createAPIClient(config: IntegrationConfig): APIClient {
-  return new APIClient(config);
+let client;
+
+export function getOrCreateAPIClient(
+  config: IntegrationConfig,
+  logger,
+): APIClient {
+  if (!client) {
+    client = new APIClient(config, logger);
+  }
+  return client;
 }

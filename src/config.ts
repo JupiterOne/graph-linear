@@ -4,7 +4,7 @@ import {
   IntegrationInstanceConfigFieldMap,
   IntegrationInstanceConfig,
 } from '@jupiterone/integration-sdk-core';
-import { createAPIClient } from './client';
+import { getOrCreateAPIClient } from './client';
 
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
   accessToken: {
@@ -26,6 +26,6 @@ export async function validateInvocation(
     throw new IntegrationValidationError('Config requires an accessToken');
   }
 
-  const apiClient = createAPIClient(config);
+  const apiClient = getOrCreateAPIClient(config, context.logger);
   await apiClient.verifyAuthentication();
 }

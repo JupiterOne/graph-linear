@@ -2,7 +2,7 @@ import {
   IntegrationStep,
   IntegrationStepExecutionContext,
 } from '@jupiterone/integration-sdk-core';
-import { APIClient } from '../../client';
+import { getOrCreateAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
 import {
@@ -14,8 +14,9 @@ import { createEntityKey } from '../../helpers';
 export const fetchUsers = async ({
   jobState,
   instance,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
-  const client = new APIClient(instance.config);
+  const client = getOrCreateAPIClient(instance.config, logger);
   const users = await client.getUsers();
 
   for (const user of users) {

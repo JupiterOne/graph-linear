@@ -6,6 +6,7 @@ import { IntegrationConfig, validateInvocation } from './config';
 import { IntegrationValidationError } from '@jupiterone/integration-sdk-core';
 import { setupProjectRecording } from '../test/recording';
 import { integrationConfig } from '../test/config';
+import { API_ENDPOINT } from './wrapWithRetry';
 
 describe('#validateInvocation', () => {
   let recording: Recording;
@@ -48,7 +49,7 @@ describe('#validateInvocation', () => {
       });
 
       await expect(validateInvocation(executionContext)).rejects.toThrow(
-        'Authentication required, not authenticated - You need to authenticate to access this operation.',
+        `Provider authentication failed at ${API_ENDPOINT}: 400 AuthenticationError`,
       );
     });
   });

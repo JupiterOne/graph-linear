@@ -4,7 +4,7 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
-import { APIClient } from '../../client';
+import { getOrCreateAPIClient } from '../../client';
 import {
   createOrganizationTeamRelationship,
   createTeamEntity,
@@ -14,8 +14,9 @@ import { createEntityKey } from '../../helpers';
 export const fetchTeams = async ({
   jobState,
   instance,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
-  const client = new APIClient(instance.config);
+  const client = getOrCreateAPIClient(instance.config, logger);
   const teams = await client.getTeams();
 
   for (const team of teams) {

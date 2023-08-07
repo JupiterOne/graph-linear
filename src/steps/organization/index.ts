@@ -4,14 +4,15 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import { IntegrationConfig } from '../../config';
 import { Entities, Steps } from '../constants';
-import { APIClient } from '../../client';
+import { getOrCreateAPIClient } from '../../client';
 import { createOrganizationEntity } from './converter';
 
 export const fetchOrganization = async ({
   jobState,
   instance,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
-  const client = new APIClient(instance.config);
+  const client = getOrCreateAPIClient(instance.config, logger);
   const organization = await client.getOrganization();
 
   await jobState.addEntity(createOrganizationEntity(organization));
