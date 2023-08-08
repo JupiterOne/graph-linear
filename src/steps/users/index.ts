@@ -7,10 +7,7 @@ import {
 import { getOrCreateAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
-import {
-  createOrganizationHasUserRelationship,
-  createUserEntity,
-} from './converters';
+import { createUserEntity } from './converters';
 import { createEntityKey } from '../../helpers';
 import { Team } from '@linear/sdk';
 
@@ -27,18 +24,6 @@ export const fetchUsers = async ({
     const userEntity = await jobState.addEntity(
       createUserEntity(user, organization),
     );
-
-    const organizationEntity = await jobState.findEntity(
-      createEntityKey(Entities.ORGANIZATION, organization.id),
-    );
-    if (organizationEntity) {
-      await jobState.addRelationship(
-        createOrganizationHasUserRelationship({
-          organizationEntity,
-          userEntity,
-        }),
-      );
-    }
 
     const teams = await client.fetchPaginatedData<Team>(
       async (after) => await user.teams({ after }),
@@ -91,11 +76,8 @@ export const userSteps: IntegrationStep<IntegrationConfig>[] = [
     id: Steps.USERS,
     name: 'Fetch Users',
     entities: [Entities.USER],
-    relationships: [
-      Relationships.ORGANIZATION_HAS_USER,
-      Relationships.TEAM_HAS_USER,
-    ],
-    dependsOn: [Steps.ORGANIZATION],
+    relationships: [Relationships.TEAM_HAS_USER],
+    dependsOn: [Steps.TEAM],
     executionHandler: fetchUsers,
   },
   {

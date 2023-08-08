@@ -85,8 +85,8 @@ export const fetchIssues = async ({
       if (assigneeEntity) {
         await jobState.addRelationship(
           createDirectRelationship({
-            from: assigneeEntity,
-            to: issueEntity,
+            from: issueEntity,
+            to: assigneeEntity,
             _class: RelationshipClass.ASSIGNED,
           }),
         );
@@ -130,7 +130,7 @@ export const issueSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [
       Relationships.TEAM_HAS_ISSUE,
       Relationships.PROJECT_HAS_ISSUE,
-      Relationships.USER_ASSIGNED_ISSUE,
+      Relationships.ISSUE_ASSIGNED_USER,
       Relationships.USER_CREATED_ISSUE,
     ],
     dependsOn: [Steps.TEAM, Steps.PROJECT, Steps.USERS],
