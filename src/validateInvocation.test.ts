@@ -48,7 +48,7 @@ describe('#validateInvocation', () => {
         },
       });
 
-      await expect(validateInvocation(executionContext)).rejects.toThrow(
+      await expect(() => validateInvocation(executionContext)).rejects.toThrow(
         `Provider authentication failed at ${API_ENDPOINT}: 400 AuthenticationError`,
       );
     });

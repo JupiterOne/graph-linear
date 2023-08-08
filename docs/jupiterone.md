@@ -19,6 +19,7 @@ The following entities are created:
 
 | Resources    | Entity `_type`        | Entity `_class`     |
 | ------------ | --------------------- | ------------------- |
+| Issue        | `linear_issue`        | `Record`, `Issue`   |
 | Organization | `linear_organization` | `Account`           |
 | Project      | `linear_project`      | `Project`           |
 | Team         | `linear_team`         | `Team`, `UserGroup` |
@@ -30,9 +31,16 @@ The following relationships are created:
 
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
+| `linear_issue`        | **CONTAINS**          | `linear_issue`        |
 | `linear_organization` | **HAS**               | `linear_team`         |
 | `linear_organization` | **HAS**               | `linear_user`         |
+| `linear_project`      | **HAS**               | `linear_issue`        |
+| `linear_project`      | **HAS**               | `linear_user`         |
+| `linear_team`         | **HAS**               | `linear_issue`        |
 | `linear_team`         | **HAS**               | `linear_project`      |
+| `linear_team`         | **HAS**               | `linear_user`         |
+| `linear_user`         | **ASSIGNED**          | `linear_issue`        |
+| `linear_user`         | **CREATED**           | `linear_issue`        |
 
 <!--
 ********************************************************************************

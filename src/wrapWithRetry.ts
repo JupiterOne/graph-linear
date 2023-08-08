@@ -22,8 +22,7 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
 
     do {
       try {
-        const response = await fetchFunction();
-        return response;
+        return await fetchFunction();
       } catch (error) {
         if (error instanceof RatelimitedLinearError) {
           const timeToReset = getTimeToResetInMs(

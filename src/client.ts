@@ -1,22 +1,58 @@
 import {
   Issue,
-  LinearClient,
   Organization,
   PageInfo,
   Project,
+  LinearSdk,
   Team,
   User,
+  parseLinearError,
 } from '@linear/sdk';
+import { DocumentNode, print } from 'graphql';
 import { IntegrationConfig } from './config';
 import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
 
 import { wrapWithRetry } from './wrapWithRetry';
+import axios, { Axios } from 'axios';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
 interface PaginatedResponse<T> {
   nodes: T[];
   pageInfo: PageInfo;
+}
+
+class AxiosLinearClient extends LinearSdk {
+  private _axios: Axios;
+  private _apiUrl = 'https://api.linear.app/graphql';
+  public constructor({ apiKey }: { apiKey: string }) {
+    super(
+      async <Variables extends Record<string, unknown>>(
+        doc: DocumentNode,
+        variables?: Variables,
+      ) => {
+        let response;
+        try {
+          response = await this._axios.post(this._apiUrl, {
+            query: print(doc),
+            variables,
+          });
+          return response.data.data;
+        } catch (error) {
+          if (response) {
+            throw parseLinearError(response.data);
+          }
+          throw parseLinearError(error);
+        }
+      },
+    );
+    this._axios = axios.create({
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 }
 
 /**
@@ -33,7 +69,7 @@ export class APIClient {
     readonly logger: IntegrationLogger,
   ) {}
 
-  private linearClient = new LinearClient({
+  private linearClient = new AxiosLinearClient({
     apiKey: this.config.accessToken,
   });
 
