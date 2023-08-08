@@ -41,17 +41,3 @@ export function createUserEntity(
     },
   });
 }
-
-export function createOrganizationHasUserRelationship({
-  organizationEntity,
-  userEntity,
-}: {
-  organizationEntity: Entity;
-  userEntity: Entity;
-}) {
-  return createRelationship({
-    relationship: Relationships.ORGANIZATION_HAS_USER,
-    from: organizationEntity,
-    to: userEntity,
-  });
-}
