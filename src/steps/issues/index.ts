@@ -8,7 +8,7 @@ import {
 
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
-import { APIClient } from '../../client';
+import { getOrCreateAPIClient } from '../../client';
 import { convertIssueEntity } from './converter';
 import { createEntityKey } from '../../helpers';
 
@@ -23,8 +23,9 @@ const tryToGetId = (issueEntity: Entity, key: string) => {
 export const fetchIssues = async ({
   jobState,
   instance,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
-  const client = new APIClient(instance.config);
+  const client = getOrCreateAPIClient(instance.config, logger);
   const issues = await client.getIssues();
 
   for (const issue of issues) {
