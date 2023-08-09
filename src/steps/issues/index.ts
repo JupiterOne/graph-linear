@@ -137,7 +137,7 @@ export const issueSteps: IntegrationStep<IntegrationConfig>[] = [
   {
     id: Steps.RELATE_ISSUES_TO_ISSUES,
     name: 'Relate Issues',
-    entities: [Entities.ISSUE],
+    entities: [],
     relationships: [Relationships.ISSUE_CONTAINS_ISSUE],
     dependsOn: [Steps.ISSUE],
     executionHandler: relateIssues,
