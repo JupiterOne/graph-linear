@@ -78,7 +78,7 @@ export const userSteps: IntegrationStep<IntegrationConfig>[] = [
   {
     id: Steps.RELATE_PROJECTS_TO_USERS,
     name: 'Relate Projects to Users',
-    entities: [Entities.PROJECT],
+    entities: [],
     relationships: [Relationships.PROJECT_HAS_USER],
     dependsOn: [Steps.USERS, Steps.PROJECT],
     executionHandler: relateProjectsToUsers,
