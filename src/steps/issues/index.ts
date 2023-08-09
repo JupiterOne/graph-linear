@@ -26,9 +26,7 @@ export const fetchIssues = async ({
   logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
   const client = getOrCreateAPIClient(instance.config, logger);
-  const issues = await client.getIssues();
-
-  for (const issue of issues) {
+  await client.iterateIssues(async (issue) => {
     const issueEntity = await jobState.addEntity(convertIssueEntity(issue));
     const teamId = tryToGetId(issueEntity, '_team');
     if (teamId) {
@@ -92,7 +90,7 @@ export const fetchIssues = async ({
         );
       }
     }
-  }
+  });
 };
 
 export const relateIssues = async ({

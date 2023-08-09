@@ -17,9 +17,7 @@ export const fetchTeams = async ({
   logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
   const client = getOrCreateAPIClient(instance.config, logger);
-  const teams = await client.getTeams();
-
-  for (const team of teams) {
+  await client.iterateTeams(async (team) => {
     const teamOrg = await team.organization;
 
     const teamEntity = createTeamEntity(team, teamOrg);
@@ -37,7 +35,7 @@ export const fetchTeams = async ({
         }),
       );
     }
-  }
+  });
 };
 
 export const teamSteps: IntegrationStep<IntegrationConfig>[] = [

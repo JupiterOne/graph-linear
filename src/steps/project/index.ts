@@ -17,19 +17,12 @@ export const fetchProjects = async ({
   logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
   const client = getOrCreateAPIClient(instance.config, logger);
-  const projects = await client.getProjects();
-
-  for (const project of projects) {
-    const teams = await client.getTeamsForProject(project);
-
+  await client.iterateProjects(async (project) => {
     const projectEntity = createProjectEntity(project);
     await jobState.addEntity(projectEntity);
 
-    const teamsEntityKeys = teams.map((team) =>
-      createEntityKey(Entities.TEAM, team.id),
-    );
-
-    for (const teamEntityKey of teamsEntityKeys) {
+    await client.iterateTeamsForProject(project, async (team) => {
+      const teamEntityKey = createEntityKey(Entities.TEAM, team.id);
       const teamEntity = await jobState.findEntity(teamEntityKey);
       if (teamEntity) {
         await jobState.addRelationship(
@@ -39,8 +32,8 @@ export const fetchProjects = async ({
           }),
         );
       }
-    }
-  }
+    });
+  });
 };
 
 export const projectSteps: IntegrationStep<IntegrationConfig>[] = [
