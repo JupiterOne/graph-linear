@@ -3,9 +3,9 @@ import {
   Entity,
   parseTimePropertyValue,
 } from '@jupiterone/integration-sdk-core';
-import { Entities, Relationships } from '../constants';
+import { Entities } from '../constants';
 import { Organization, User } from '@linear/sdk';
-import { createEntityKey, createRelationship } from '../../helpers';
+import { createEntityKey } from '../../helpers';
 
 export function createUserEntity(
   user: User,
