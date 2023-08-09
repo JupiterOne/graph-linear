@@ -32,11 +32,20 @@ If you need help with this integration, contact
 ### In Linear
 
 1. Generate an API key via the [settings page](https://linear.app/settings/api).
-1. Copy the API key and save it for use within JupiterOne.
+2. Copy the API key and save it for use within JupiterOne.
 
 ### In JupiterOne
 
-<!-- TODO! -->
+1. From the top-bar menu, select **Integrations**.
+2. Scroll to, or search for, the **Linear** integration tile and click it.
+3. Click the **New Instance** button and configure the settings:
+
+   - Enter the **API Key** generated in Linear.
+   - Enter the **Account Name** by which you'd like to identify this Jamf
+     account in JupiterOne. Ingested entities will have this value stored in
+     `tag.AccountName` when **Tag with Account Name** is checked.
+
+4. Click the **Create** button to complete the integration.
 
 <!-- {J1_DOCUMENTATION_MARKER_START} -->
 <!--
