@@ -1,14 +1,12 @@
 import {
   IntegrationStep,
   IntegrationStepExecutionContext,
-  RelationshipClass,
-  createDirectRelationship,
 } from '@jupiterone/integration-sdk-core';
 import { getOrCreateAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
 import { createUserEntity } from './converters';
-import { createEntityKey } from '../../helpers';
+import { createEntityKey, createRelationship } from '../../helpers';
 import { Team } from '@linear/sdk';
 
 export const fetchUsers = async ({
@@ -31,10 +29,10 @@ export const fetchUsers = async ({
         );
         if (teamEntity) {
           await jobState.addRelationship(
-            createDirectRelationship({
+            createRelationship({
               from: teamEntity,
               to: userEntity,
-              _class: Relationships.TEAM_HAS_USER._class,
+              relationship: Relationships.TEAM_HAS_USER,
             }),
           );
         }
@@ -57,10 +55,10 @@ export const relateProjectsToUsers = async ({
       );
       if (userEntity) {
         await jobState.addRelationship(
-          createDirectRelationship({
+          createRelationship({
             from: projectEntity,
             to: userEntity,
-            _class: RelationshipClass.HAS,
+            relationship: Relationships.PROJECT_HAS_USER,
           }),
         );
       }
