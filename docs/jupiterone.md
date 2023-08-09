@@ -2,15 +2,15 @@
 
 ## Integration Benefits
 
-- Visualize your Linear organization, projects, teams, and users in the
+- Visualize your Linear organization, projects, teams, users, and issues in the
   JupiterOne graph.
 - Map Linear users to Person entities in your JupiterOne account.
 - Monitor changes to Linear entities by leveraging JupiterOne alerts.
 
 ## How it Works
 
-- JupiterOne periodically ingests projects, teams, and users from Linear to
-  update the graph.
+- JupiterOne periodically ingests projects, teams, users, and issues from Linear
+  to update the graph.
 - Write JupiterOne queries to review and monitor updates to the graph, or
   leverage existing queries.
 - Configure alerts to take action when JupiterOne graph changes, or leverage
