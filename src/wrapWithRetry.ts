@@ -27,7 +27,7 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
       } catch (error) {
         if (error instanceof RatelimitedLinearError) {
           const timeToReset = getTimeToResetInMs(
-            error.raw?.response?.headers?.['X-RateLimit-Requests-Reset'],
+            error.raw?.response?.headers?.['x-ratelimit-requests-reset'],
           );
 
           logger.info(
@@ -61,5 +61,5 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
 export const getTimeToResetInMs = (resetTime: string) => {
   if (!resetTime) return DEFAULT_RATE_LIMIT_SLEEP_TIME;
   // https://developers.linear.app/docs/graphql/working-with-the-graphql-api/rate-limiting#api-request-limits
-  return parseInt(resetTime) * 1000 - Math.round(new Date().getTime());
+  return parseInt(resetTime) - new Date().getTime();
 };
