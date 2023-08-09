@@ -33,7 +33,7 @@ jobs:
         run: |
           if [[ "${GITHUB_REF}" == 'ref/head/main' && "${GITHUB_EVENT_NAME}" == 'push' ]];
           then
-            echo "aws-oidc-role=arn:aws:ia::081157560428:role/github-main-role" >> $GITHUB_OUTPUT
+            echo "aws-oidc-role=arn:aws:iam::081157560428:role/github-main-role" >> $GITHUB_OUTPUT
           else
             echo "aws-oidc-role=arn:aws:iam::081157560428:role/github-pull-request-role" >> $GITHUB_OUTPUT
           fi
