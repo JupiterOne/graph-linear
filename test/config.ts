@@ -12,7 +12,7 @@ if (process.env.LOAD_ENV) {
 }
 
 export const integrationConfig: IntegrationConfig = {
-  accessToken: process.env['ACCESS_TOKEN'] || '',
+  accessToken: process.env['ACCESS_TOKEN'] || 'dummy-access-token',
 };
 
 export function buildStepTestConfigForStep(stepId: string): StepTestConfig {

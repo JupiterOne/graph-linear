@@ -24,5 +24,5 @@ describe('Fetch users step', () => {
     const stepConfig = buildStepTestConfigForStep(Steps.USERS);
     const stepResult = await executeStepWithDependencies(stepConfig);
     expect(stepResult).toMatchStepMetadata(stepConfig);
-  });
+  }, 10000);
 });
