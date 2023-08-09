@@ -28,7 +28,7 @@ export const generateRelationshipMetadata = ({
     sourceType: from._type,
     _class,
     targetType: to._type,
-  }) satisfies StepRelationshipMetadata;
+  } satisfies StepRelationshipMetadata);
 
 export const createRelationship = ({
   relationship,
