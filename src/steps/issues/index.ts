@@ -26,9 +26,7 @@ export const fetchIssues = async ({
   logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
   const client = getOrCreateAPIClient(instance.config, logger);
-  const issues = await client.getIssues();
-
-  for (const issue of issues) {
+  await client.iterateIssues(async (issue) => {
     const issueEntity = await jobState.addEntity(convertIssueEntity(issue));
     const teamId = tryToGetId(issueEntity, '_team');
     if (teamId) {
@@ -85,14 +83,14 @@ export const fetchIssues = async ({
       if (assigneeEntity) {
         await jobState.addRelationship(
           createDirectRelationship({
-            from: assigneeEntity,
-            to: issueEntity,
+            from: issueEntity,
+            to: assigneeEntity,
             _class: RelationshipClass.ASSIGNED,
           }),
         );
       }
     }
-  }
+  });
 };
 
 export const relateIssues = async ({
@@ -130,7 +128,7 @@ export const issueSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [
       Relationships.TEAM_HAS_ISSUE,
       Relationships.PROJECT_HAS_ISSUE,
-      Relationships.USER_ASSIGNED_ISSUE,
+      Relationships.ISSUE_ASSIGNED_USER,
       Relationships.USER_CREATED_ISSUE,
     ],
     dependsOn: [Steps.TEAM, Steps.PROJECT, Steps.USERS],

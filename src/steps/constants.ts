@@ -54,11 +54,6 @@ export const Relationships = {
     from: Entities.TEAM,
     to: Entities.PROJECT,
   }),
-  ORGANIZATION_HAS_USER: generateRelationshipMetadata({
-    _class: RelationshipClass.HAS,
-    from: Entities.ORGANIZATION,
-    to: Entities.USER,
-  }),
   TEAM_HAS_USER: generateRelationshipMetadata({
     _class: RelationshipClass.HAS,
     from: Entities.TEAM,
@@ -84,10 +79,10 @@ export const Relationships = {
     from: Entities.USER,
     to: Entities.ISSUE,
   }),
-  USER_ASSIGNED_ISSUE: generateRelationshipMetadata({
+  ISSUE_ASSIGNED_USER: generateRelationshipMetadata({
     _class: RelationshipClass.ASSIGNED,
-    from: Entities.USER,
-    to: Entities.ISSUE,
+    from: Entities.ISSUE,
+    to: Entities.USER,
   }),
   ISSUE_CONTAINS_ISSUE: generateRelationshipMetadata({
     _class: RelationshipClass.CONTAINS,

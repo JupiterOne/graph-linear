@@ -7,10 +7,7 @@ import {
 import { getOrCreateAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
 import { Entities, Relationships, Steps } from '../constants';
-import {
-  createOrganizationHasUserRelationship,
-  createUserEntity,
-} from './converters';
+import { createUserEntity } from './converters';
 import { createEntityKey } from '../../helpers';
 import { Team } from '@linear/sdk';
 
@@ -20,44 +17,30 @@ export const fetchUsers = async ({
   logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) => {
   const client = getOrCreateAPIClient(instance.config, logger);
-  const users = await client.getUsers();
-
-  for (const user of users) {
+  await client.iterateUsers(async (user) => {
     const organization = await user.organization;
     const userEntity = await jobState.addEntity(
       createUserEntity(user, organization),
     );
 
-    const organizationEntity = await jobState.findEntity(
-      createEntityKey(Entities.ORGANIZATION, organization.id),
-    );
-    if (organizationEntity) {
-      await jobState.addRelationship(
-        createOrganizationHasUserRelationship({
-          organizationEntity,
-          userEntity,
-        }),
-      );
-    }
-
-    const teams = await client.fetchPaginatedData<Team>(
+    await client.iteratePaginatedData<Team>(
       async (after) => await user.teams({ after }),
-    );
-    for (const team of teams) {
-      const teamEntity = await jobState.findEntity(
-        createEntityKey(Entities.TEAM, team.id),
-      );
-      if (teamEntity) {
-        await jobState.addRelationship(
-          createDirectRelationship({
-            from: teamEntity,
-            to: userEntity,
-            _class: Relationships.TEAM_HAS_USER._class,
-          }),
+      async (team) => {
+        const teamEntity = await jobState.findEntity(
+          createEntityKey(Entities.TEAM, team.id),
         );
-      }
-    }
-  }
+        if (teamEntity) {
+          await jobState.addRelationship(
+            createDirectRelationship({
+              from: teamEntity,
+              to: userEntity,
+              _class: Relationships.TEAM_HAS_USER._class,
+            }),
+          );
+        }
+      },
+    );
+  });
 };
 
 export const relateProjectsToUsers = async ({
@@ -68,8 +51,7 @@ export const relateProjectsToUsers = async ({
   await jobState.iterateEntities(Entities.PROJECT, async (projectEntity) => {
     const projectId = projectEntity.id as string;
     const client = getOrCreateAPIClient(instance.config, logger);
-    const users = await client.getUsersForProjectId(projectId);
-    for (const user of users) {
+    await client.iterateUsersForProjectId(projectId, async (user) => {
       const userEntity = await jobState.findEntity(
         createEntityKey(Entities.USER, user.id),
       );
@@ -82,7 +64,7 @@ export const relateProjectsToUsers = async ({
           }),
         );
       }
-    }
+    });
   });
 };
 
@@ -91,11 +73,8 @@ export const userSteps: IntegrationStep<IntegrationConfig>[] = [
     id: Steps.USERS,
     name: 'Fetch Users',
     entities: [Entities.USER],
-    relationships: [
-      Relationships.ORGANIZATION_HAS_USER,
-      Relationships.TEAM_HAS_USER,
-    ],
-    dependsOn: [Steps.ORGANIZATION],
+    relationships: [Relationships.TEAM_HAS_USER],
+    dependsOn: [Steps.TEAM],
     executionHandler: fetchUsers,
   },
   {

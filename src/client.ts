@@ -49,81 +49,92 @@ export class APIClient {
     return await this.linearClient.organization;
   }
 
-  public async getProjects(): Promise<Project[]> {
-    const fetchFunction = async (cursor?: string) =>
-      await this.linearClient.projects({
-        after: cursor,
-      });
-
-    const projects = await this.fetchPaginatedData<Project>(fetchFunction);
-    return projects;
-  }
-
-  public async getTeams(): Promise<Team[]> {
-    const fetchFunction = async (cursor?: string) =>
-      await this.linearClient.teams({
-        after: cursor,
-      });
-
-    const teams = await this.fetchPaginatedData<Team>(fetchFunction);
-    return teams;
-  }
-
-  public async getUsers(): Promise<User[]> {
-    const fetchFunction = async (cursor?: string) =>
-      await this.linearClient.users({
-        after: cursor,
-      });
-
-    const users = await this.fetchPaginatedData<User>(fetchFunction);
-    return users;
-  }
-
-  public async getIssues(): Promise<Issue[]> {
-    const fetchFunction = async (cursor?: string) =>
-      await this.linearClient.issues({
-        after: cursor,
-      });
-
-    const issues = await this.fetchPaginatedData<Issue>(fetchFunction);
-    return issues;
-  }
-
-  public async getTeamsForProject(project: Project): Promise<Team[]> {
-    const fetchFunction = async (cursor?: string) =>
-      await project.teams({
-        after: cursor,
-      });
-
-    const teams = await this.fetchPaginatedData<Team>(fetchFunction);
-    return teams;
-  }
-
-  public async getUsersForProjectId(projectId: string): Promise<User[]> {
-    const project = await this.linearClient.project(projectId);
-    return await this.fetchPaginatedData<User>(
-      async (after) => await project.members({ after }),
+  public async iterateProjects(iteratee: ResourceIteratee<Project>) {
+    await this.iteratePaginatedData<Project>(
+      async (cursor?: string) =>
+        await this.linearClient.projects({
+          after: cursor,
+        }),
+      iteratee,
     );
   }
 
-  async fetchPaginatedData<T>(
+  public async iterateTeams(iteratee: ResourceIteratee<Team>) {
+    await this.iteratePaginatedData<Team>(
+      async (cursor?: string) =>
+        await this.linearClient.teams({
+          after: cursor,
+        }),
+      iteratee,
+    );
+  }
+
+  public async iterateUsers(iteratee: ResourceIteratee<User>) {
+    await this.iteratePaginatedData<User>(
+      async (cursor?: string) =>
+        await this.linearClient.users({
+          after: cursor,
+        }),
+      iteratee,
+    );
+  }
+
+  public async iterateIssues(iteratee: ResourceIteratee<Issue>) {
+    await this.iteratePaginatedData<Issue>(
+      async (cursor?: string) =>
+        await this.linearClient.issues({
+          after: cursor,
+        }),
+      iteratee,
+    );
+  }
+
+  public async iterateTeamsForProject(
+    project: Project,
+    iteratee: ResourceIteratee<Team>,
+  ) {
+    await this.iteratePaginatedData<Team>(
+      async (cursor?: string) =>
+        await project.teams({
+          after: cursor,
+        }),
+      iteratee,
+    );
+  }
+
+  public async iterateUsersForProjectId(
+    projectId: string,
+    iteratee: ResourceIteratee<User>,
+  ): Promise<void> {
+    const project = await this.linearClient.project(projectId);
+    await this.iteratePaginatedData<User>(
+      async (after) => await project.members({ after }),
+      iteratee,
+    );
+  }
+
+  async iteratePaginatedData<T>(
     fetchFunction: (cursor?: string) => Promise<PaginatedResponse<T>>,
-  ): Promise<T[]> {
+    iteratee: ResourceIteratee<T>,
+  ): Promise<void> {
     let hasMore: boolean;
     let endCursor: string | undefined;
-    const data: T[] = [];
 
     do {
       const response = await wrapWithRetry({
         fetchFunction: () => fetchFunction(endCursor),
         logger: this.logger,
       })();
-      hasMore = response?.pageInfo.hasNextPage || false;
-      endCursor = response?.pageInfo.endCursor;
-      data.push(...(response?.nodes || []));
-    } while (hasMore);
-
-    return data;
+      if (response?.nodes && response.nodes.length > 0) {
+        for (const each of response.nodes) {
+          await iteratee(each);
+        }
+        hasMore = response?.pageInfo.hasNextPage || false;
+        endCursor = response?.pageInfo.endCursor;
+      } else {
+        hasMore = false;
+      }
+    } while (hasMore && endCursor);
   }
 }
 
