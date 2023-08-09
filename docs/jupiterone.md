@@ -1,5 +1,43 @@
 # Linear
 
+## Integration Benefits
+
+- Visualize your Linear organization, projects, teams, and users in the
+  JupiterOne graph.
+- Map Linear users to Person entities in your JupiterOne account.
+- Monitor changes to Linear entities by leveraging JupiterOne alerts.
+
+## How it Works
+
+- JupiterOne periodically ingests projects, teams, and users from Linear to
+  update the graph.
+- Write JupiterOne queries to review and monitor updates to the graph, or
+  leverage existing queries.
+- Configure alerts to take action when JupiterOne graph changes, or leverage
+  existing alerts.
+
+## Prerequisites
+
+- Linear supports the use of API keys to authenticate API requests. You need
+  access to an account that has permissions to create a new API key.
+- You must have permission in JupiterOne to install new integrations.
+
+## Support
+
+If you need help with this integration, contact
+[JupiterOne Support](https://support.jupiterone.io/).
+
+## How to Use This Integration
+
+### In Linear
+
+1. Generate an API key via the [settings page](https://linear.app/settings/api).
+1. Copy the API key and save it for use within JupiterOne.
+
+### In JupiterOne
+
+<!-- TODO! -->
+
 <!-- {J1_DOCUMENTATION_MARKER_START} -->
 <!--
 ********************************************************************************

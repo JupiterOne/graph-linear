@@ -1,28 +1,22 @@
 # Development
 
-Add details here to give a brief overview of how to work with the provider APIs.
-Please reference any SDKs or API docs used to help build the integration here.
-
-## Prerequisites
-
-Supply details about software or tooling (like maybe Docker or Terraform) that
-is needed for development here.
-
-Please supply references to documentation that details how to install those
-dependencies here.
-
-Tools like Node.js and NPM are already covered in the [README](../README.md) so
-don't bother documenting that here.
+Any individual is able to create a free Linear account with an email address and
+use the API for testing purposes. This project takes advantage of the Linear
+[SDK](https://developers.linear.app/docs/sdk/getting-started) for fetching data.
 
 ## Provider account setup
 
-Please provide information about the steps needed to create an account with a
-provider. Images and references to a provider's documentation is very helpful
-for new developers picking up your work.
+1. Create a Linear account at https://linear.app/signup.
+1. Confirm your registration using the emailed link.
+1. You will be prompted to create a workspace.
+1. Once the workspace is created, you will be able to create and update entities
+   as needed for testing.
 
 ## Authentication
 
-Supply details here for information on how to authenticate with a provider so
-that developers have an idea of what's needed to hit APIs. It may be useful to
-provide explanations for each value specified in the
-[`IntegrationInstanceConfigFieldMap`](../src/config.ts).
+1. Once logged in, navigate to Settings --> My Account --> API.
+1. Create an API key in one of two ways:
+   1. Personal API key
+   1. Create a new OAuth application --> Manage application --> Create developer
+      token
+1. Add the token to the `.env` file as the `ACCESS_TOKEN`.
