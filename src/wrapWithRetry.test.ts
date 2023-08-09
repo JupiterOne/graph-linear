@@ -21,9 +21,9 @@ describe('wrapWithRetry', () => {
           new RatelimitedLinearError({
             response: {
               headers: {
-                'X-RateLimit-Requests-Reset': Math.round(
-                  new Date().getTime() + 1000,
-                ).toString(),
+                'x-ratelimit-requests-reset':
+                  // .5 sec from now
+                  (new Date().getTime() + 500).toString(),
               } as any,
             },
           }),
@@ -88,17 +88,10 @@ describe('wrapWithRetry', () => {
 
 describe('getTimeToResetInMs', () => {
   test('returns the time to reset in milliseconds', () => {
-    const mockReturnedResetTime = (
-      Math.round(new Date().getTime() / 1000) + 60
-    ).toString();
+    const mockReturnedResetTime = (new Date().getTime() + 600000).toString();
 
-    // the range here is to account for the time it takes to run the test
-    expect(getTimeToResetInMs(mockReturnedResetTime)).toBeGreaterThanOrEqual(
-      59000,
-    );
-    expect(getTimeToResetInMs(mockReturnedResetTime)).toBeLessThanOrEqual(
-      61000,
-    );
+    // 10 mins
+    expect(getTimeToResetInMs(mockReturnedResetTime)).toBe(600000);
   });
 
   test('returns default if no time is passed in', () => {
