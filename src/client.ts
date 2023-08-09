@@ -144,7 +144,7 @@ export function getOrCreateAPIClient(
   config: IntegrationConfig,
   logger,
 ): APIClient {
-  if (!client) {
+  if (!client || client.config.accessToken !== config.accessToken) {
     client = new APIClient(config, logger);
   }
   return client;

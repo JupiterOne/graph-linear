@@ -17,16 +17,6 @@ describe('#validateInvocation', () => {
     }
   });
 
-  test('requires valid config', async () => {
-    const executionContext = createMockExecutionContext<IntegrationConfig>({
-      instanceConfig: {} as IntegrationConfig,
-    });
-
-    await expect(validateInvocation(executionContext)).rejects.toThrow(
-      IntegrationValidationError,
-    );
-  });
-
   test('successfully validates invocation', async () => {
     recording = setupProjectRecording({
       directory: __dirname,
@@ -42,6 +32,13 @@ describe('#validateInvocation', () => {
 
   describe('fails validating invocation', () => {
     test('invalid accessToken', async () => {
+      recording = setupProjectRecording({
+        directory: __dirname,
+        name: 'incorrect-access-token-auth-error',
+        options: {
+          recordFailedRequests: true,
+        },
+      });
       const executionContext = createMockExecutionContext<IntegrationConfig>({
         instanceConfig: {
           accessToken: 'blah',
@@ -50,6 +47,23 @@ describe('#validateInvocation', () => {
 
       await expect(validateInvocation(executionContext)).rejects.toThrow(
         `Provider authentication failed at ${API_ENDPOINT}: 400 AuthenticationError`,
+      );
+    });
+
+    test('requires valid config', async () => {
+      recording = setupProjectRecording({
+        directory: __dirname,
+        name: 'access-token-missing-auth-error',
+        options: {
+          recordFailedRequests: true,
+        },
+      });
+      const executionContext = createMockExecutionContext<IntegrationConfig>({
+        instanceConfig: {} as IntegrationConfig,
+      });
+
+      await expect(validateInvocation(executionContext)).rejects.toThrow(
+        IntegrationValidationError,
       );
     });
   });
