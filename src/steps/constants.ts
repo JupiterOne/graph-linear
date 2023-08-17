@@ -93,4 +93,6 @@ export const Relationships = {
 
 export const INGESTION_SOURCE_IDS = {
   ISSUES: 'issues',
+  USERS: 'users',
+  PROJECTS: 'projects',
 };
