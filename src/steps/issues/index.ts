@@ -186,18 +186,18 @@ export const issueSteps: IntegrationStep<IntegrationConfig>[] = [
     executionHandler: relateIssuesToProjects,
     ingestionSourceId: INGESTION_SOURCE_IDS.ISSUES,
   },
-  // {
-  //   id: Steps.RELATE_ISSUES_TO_USERS,
-  //   name: 'Relate Issues to Users',
-  //   entities: [],
-  //   relationships: [
-  //     Relationships.ISSUE_ASSIGNED_USER,
-  //     Relationships.USER_CREATED_ISSUE,
-  //   ],
-  //   dependsOn: [Steps.USERS, Steps.ISSUE],
-  //   executionHandler: relateIssuesToUsers,
-  //   ingestionSourceId: INGESTION_SOURCE_IDS.ISSUES,
-  // },
+  {
+    id: Steps.RELATE_ISSUES_TO_USERS,
+    name: 'Relate Issues to Users',
+    entities: [],
+    relationships: [
+      Relationships.ISSUE_ASSIGNED_USER,
+      Relationships.USER_CREATED_ISSUE,
+    ],
+    dependsOn: [Steps.USERS, Steps.ISSUE],
+    executionHandler: relateIssuesToUsers,
+    ingestionSourceId: INGESTION_SOURCE_IDS.ISSUES,
+  },
   {
     id: Steps.RELATE_ISSUES_TO_ISSUES,
     name: 'Relate Issues',

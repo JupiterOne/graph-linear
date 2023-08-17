@@ -78,6 +78,7 @@ The following relationships are created:
 
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
+| `linear_issue`        | **ASSIGNED**          | `linear_user`         |
 | `linear_issue`        | **CONTAINS**          | `linear_issue`        |
 | `linear_organization` | **HAS**               | `linear_team`         |
 | `linear_project`      | **HAS**               | `linear_issue`        |
@@ -85,6 +86,7 @@ The following relationships are created:
 | `linear_team`         | **HAS**               | `linear_issue`        |
 | `linear_team`         | **HAS**               | `linear_project`      |
 | `linear_team`         | **HAS**               | `linear_user`         |
+| `linear_user`         | **CREATED**           | `linear_issue`        |
 
 <!--
 ********************************************************************************
