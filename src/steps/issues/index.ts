@@ -7,7 +7,12 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 import { IntegrationConfig } from '../../config';
-import { Entities, Relationships, Steps } from '../constants';
+import {
+  Entities,
+  INGESTION_SOURCE_IDS,
+  Relationships,
+  Steps,
+} from '../constants';
 import { getOrCreateAPIClient } from '../../client';
 import { convertIssueEntity } from './converter';
 import { createEntityKey } from '../../helpers';
@@ -133,6 +138,7 @@ export const issueSteps: IntegrationStep<IntegrationConfig>[] = [
     ],
     dependsOn: [Steps.TEAM, Steps.PROJECT, Steps.USERS],
     executionHandler: fetchIssues,
+    ingestionSourceId: INGESTION_SOURCE_IDS.ISSUES,
   },
   {
     id: Steps.RELATE_ISSUES_TO_ISSUES,
@@ -141,5 +147,6 @@ export const issueSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [Relationships.ISSUE_CONTAINS_ISSUE],
     dependsOn: [Steps.ISSUE],
     executionHandler: relateIssues,
+    ingestionSourceId: INGESTION_SOURCE_IDS.ISSUES,
   },
 ];

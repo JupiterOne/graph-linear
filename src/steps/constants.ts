@@ -90,3 +90,7 @@ export const Relationships = {
     to: Entities.ISSUE,
   }),
 } satisfies Record<string, StepRelationshipMetadata>;
+
+export const INGESTION_SOURCE_IDS = {
+  ISSUES: 'issues',
+};
