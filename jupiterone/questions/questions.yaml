@@ -2,4 +2,50 @@
 sourceId: managed:linear
 integrationDefinitionId: '${integration_definition_id}'
 questions:
-  []
+  - id: integration-question-linear-users-by-type
+    title: Who are the Linear users in my account?
+    description: 'Returns a list of Linear active users by account'
+    queries:
+      - name: standard-users
+        query: Find linear_user with accountType='atlassian'
+      - name: app-users
+        query: Find linear_user with accountType='app'
+      - name: customers
+        query: Find linear_user with accountType='customer'
+      - name: other-users
+        query: Find linear_user with active=true
+    tags:
+      - linear
+      - access
+
+  - id: integration-question-linear-users-external
+    title: Do I have external (non-app) users with access to my Linear account?
+    description: |
+      Returns a list of Linear active users that are not mapped to
+      a known Person entity.
+    queries:
+      - query: Find linear_user with active=true that !is Person
+    tags:
+      - linear
+      - access
+
+  - id: integration-question-linear-open-high-prioriry-issues
+    title: What high priority open Linear issues were created in the last week?
+    description: |
+      Returns a list of high priority Linear issues that were created within the last week.
+    queries:
+      - query:
+          FIND linear_issue WITH priority='High' AND createdOn > date.now-7days
+    tags:
+      - linear
+
+  - id: integration-question-linear-open-issues-by-creator
+    title: How many open Linear issues do I have by creator?
+    description: |
+      Returns count of open Linear tickets opened by creator.
+    queries:
+      - query:
+          FIND linear_user AS u THAT (CREATED|REPORTED) linear_issue as i RETURN
+          u.name as creator, count(i) as tickets
+    tags:
+      - linear
