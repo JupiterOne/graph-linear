@@ -12,6 +12,9 @@ export const Steps = {
   USERS: 'fetch-users',
   ISSUE: 'fetch-issues',
   RELATE_ISSUES_TO_ISSUES: 'relate-issues-to-issues',
+  RELATE_ISSUES_TO_PROJECTS: 'relate-issues-to-projects',
+  RELATE_ISSUES_TO_TEAMS: 'relate-issues-to-teams',
+  RELATE_ISSUES_TO_USERS: 'relate-issues-to-users',
   RELATE_PROJECTS_TO_USERS: 'relate-projects-to-users',
 } satisfies Record<string, string>;
 
