@@ -1,3 +1,15 @@
+# v0.3.0 (Fri Aug 18 2023)
+
+#### 🚀 Enhancement
+
+- INT-9231 - Add ingestion config [#13](https://github.com/JupiterOne/graph-linear/pull/13) ([@jzolo22](https://github.com/jzolo22))
+
+#### Authors: 1
+
+- Julia Zolotarev ([@jzolo22](https://github.com/jzolo22))
+
+---
+
 # v0.2.0 (Wed Aug 09 2023)
 
 #### 🚀 Enhancement
