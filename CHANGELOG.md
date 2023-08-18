@@ -2,7 +2,9 @@
 
 #### 🚀 Enhancement
 
-- INT-9231 - Add ingestion config [#13](https://github.com/JupiterOne/graph-linear/pull/13) ([@jzolo22](https://github.com/jzolo22))
+- INT-9231 - Add ingestion config
+  [#13](https://github.com/JupiterOne/graph-linear/pull/13)
+  ([@jzolo22](https://github.com/jzolo22))
 
 #### Authors: 1
 
