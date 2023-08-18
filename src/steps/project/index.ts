@@ -3,7 +3,12 @@ import {
   IntegrationStepExecutionContext,
 } from '@jupiterone/integration-sdk-core';
 import { IntegrationConfig } from '../../config';
-import { Entities, Relationships, Steps } from '../constants';
+import {
+  Entities,
+  INGESTION_SOURCE_IDS,
+  Relationships,
+  Steps,
+} from '../constants';
 import { getOrCreateAPIClient } from '../../client';
 import {
   createProjectEntity,
@@ -44,5 +49,6 @@ export const projectSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [Relationships.TEAM_HAS_PROJECT],
     dependsOn: [Steps.TEAM],
     executionHandler: fetchProjects,
+    ingestionSourceId: INGESTION_SOURCE_IDS.PROJECTS,
   },
 ];

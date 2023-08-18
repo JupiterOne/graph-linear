@@ -2,11 +2,13 @@
 
 #### 🚀 Enhancement
 
-- Initial Release [#11](https://github.com/JupiterOne/graph-linear/pull/11) ([@ryan-willis](https://github.com/ryan-willis))
+- Initial Release [#11](https://github.com/JupiterOne/graph-linear/pull/11)
+  ([@ryan-willis](https://github.com/ryan-willis))
 
 #### 🐛 Bug Fix
 
-- update docs [#12](https://github.com/JupiterOne/graph-linear/pull/12) ([@ryan-willis](https://github.com/ryan-willis))
+- update docs [#12](https://github.com/JupiterOne/graph-linear/pull/12)
+  ([@ryan-willis](https://github.com/ryan-willis))
 
 #### Authors: 1
 

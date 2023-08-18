@@ -4,7 +4,12 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import { getOrCreateAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
-import { Entities, Relationships, Steps } from '../constants';
+import {
+  Entities,
+  INGESTION_SOURCE_IDS,
+  Relationships,
+  Steps,
+} from '../constants';
 import { createUserEntity } from './converters';
 import { createEntityKey, createRelationship } from '../../helpers';
 import { Team } from '@linear/sdk';
@@ -74,6 +79,7 @@ export const userSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [Relationships.TEAM_HAS_USER],
     dependsOn: [Steps.TEAM],
     executionHandler: fetchUsers,
+    ingestionSourceId: INGESTION_SOURCE_IDS.USERS,
   },
   {
     id: Steps.RELATE_PROJECTS_TO_USERS,
@@ -82,5 +88,6 @@ export const userSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [Relationships.PROJECT_HAS_USER],
     dependsOn: [Steps.USERS, Steps.PROJECT],
     executionHandler: relateProjectsToUsers,
+    ingestionSourceId: INGESTION_SOURCE_IDS.USERS,
   },
 ];
