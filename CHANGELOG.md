@@ -1,3 +1,17 @@
+# v0.3.1 (Mon Aug 21 2023)
+
+#### 🐛 Bug Fix
+
+- [INT-8768] - Add questions [#14](https://github.com/JupiterOne/graph-linear/pull/14) ([@geovannimp](https://github.com/geovannimp))
+- INT-8768 - Fix the questions workflow [#15](https://github.com/JupiterOne/graph-linear/pull/15) ([@jzolo22](https://github.com/jzolo22))
+
+#### Authors: 2
+
+- Geovanni Pacheco ([@geovannimp](https://github.com/geovannimp))
+- Julia Zolotarev ([@jzolo22](https://github.com/jzolo22))
+
+---
+
 # v0.3.0 (Fri Aug 18 2023)
 
 #### 🚀 Enhancement
