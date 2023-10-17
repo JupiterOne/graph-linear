@@ -2,6 +2,10 @@
   "name": "@jupiterone/graph-linear",
   "version": "0.3.1",
   "description": "An integration and graph conversion project for Linear",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JupiterOne/graph-linear"
+  },
   "license": "MPL-2.0",
   "main": "src/index.js",
   "types": "src/index.d.ts",
