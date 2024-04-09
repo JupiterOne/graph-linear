@@ -46,20 +46,19 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
             endpoint: API_ENDPOINT,
           });
         } else {
+          if (retryCounter === maxRetries) {
+            logger.info(
+              {
+                error,
+              },
+              'Error when trying to fetch resource',
+            );
+          }
           throw new IntegrationProviderAPIError({
             status: error.raw?.response?.status as number,
             statusText: error.type as string,
             endpoint: API_ENDPOINT,
           });
-        }
-
-        if (retryCounter === maxRetries) {
-          logger.info(
-            {
-              error,
-            },
-            'Error when trying to fetch resource',
-          );
         }
       }
     } while (retryCounter < maxRetries);
