@@ -52,6 +52,15 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
             endpoint: API_ENDPOINT,
           });
         }
+
+        if (retryCounter === maxRetries) {
+          logger.info(
+            {
+              error,
+            },
+            'Error when trying to fetch resource',
+          );
+        }
       }
     } while (retryCounter < maxRetries);
   };
