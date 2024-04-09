@@ -1,3 +1,20 @@
+# v0.3.2 (Tue Apr 09 2024)
+
+#### 🐛 Bug Fix
+
+- INT-10711: log integration errors [#16](https://github.com/JupiterOne/graph-linear/pull/16) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### ⚠️ Pushed to `main`
+
+- Apply remove-codeql with multi-gitter [ci skip] ([@electricgull](https://github.com/electricgull))
+
+#### Authors: 2
+
+- Cameron Griffin ([@electricgull](https://github.com/electricgull))
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.3.1 (Mon Aug 21 2023)
 
 #### 🐛 Bug Fix
