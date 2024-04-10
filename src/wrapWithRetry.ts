@@ -46,7 +46,7 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
             endpoint: API_ENDPOINT,
           });
         } else {
-          if (retryCounter === maxRetries) {
+          if (retryCounter === 2) {
             logger.info(
               {
                 error,
