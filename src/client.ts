@@ -54,6 +54,7 @@ export class APIClient {
       async (cursor?: string) =>
         await this.linearClient.projects({
           after: cursor,
+          first: 100,
         }),
       iteratee,
     );
@@ -64,6 +65,7 @@ export class APIClient {
       async (cursor?: string) =>
         await this.linearClient.teams({
           after: cursor,
+          first: 100,
         }),
       iteratee,
     );
@@ -74,6 +76,7 @@ export class APIClient {
       async (cursor?: string) =>
         await this.linearClient.users({
           after: cursor,
+          first: 100,
         }),
       iteratee,
     );
@@ -84,6 +87,7 @@ export class APIClient {
       async (cursor?: string) =>
         await this.linearClient.issues({
           after: cursor,
+          first: 100,
         }),
       iteratee,
     );
@@ -97,6 +101,7 @@ export class APIClient {
       async (cursor?: string) =>
         await project.teams({
           after: cursor,
+          first: 100,
         }),
       iteratee,
     );
@@ -108,7 +113,7 @@ export class APIClient {
   ): Promise<void> {
     const project = await this.linearClient.project(projectId);
     await this.iteratePaginatedData<User>(
-      async (after) => await project.members({ after }),
+      async (after) => await project.members({ after, first: 100 }),
       iteratee,
     );
   }
