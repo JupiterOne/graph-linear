@@ -1,3 +1,15 @@
+# v0.3.4 (Wed Apr 10 2024)
+
+#### 🐛 Bug Fix
+
+- INT-10711: update logger [#18](https://github.com/JupiterOne/graph-linear/pull/18) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.3.3 (Tue Apr 09 2024)
 
 #### 🐛 Bug Fix
