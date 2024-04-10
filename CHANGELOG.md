@@ -1,3 +1,15 @@
+# v0.3.7 (Wed Apr 10 2024)
+
+#### 🐛 Bug Fix
+
+- INT-10711: fix pagination issue [#21](https://github.com/JupiterOne/graph-linear/pull/21) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.3.6 (Wed Apr 10 2024)
 
 #### 🐛 Bug Fix
