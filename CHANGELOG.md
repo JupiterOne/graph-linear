@@ -1,3 +1,15 @@
+# v0.3.6 (Wed Apr 10 2024)
+
+#### 🐛 Bug Fix
+
+- Update SDK [#20](https://github.com/JupiterOne/graph-linear/pull/20) ([@gastonyelmini](https://github.com/gastonyelmini))
+
+#### Authors: 1
+
+- Gaston Yelmini ([@gastonyelmini](https://github.com/gastonyelmini))
+
+---
+
 # v0.3.5 (Wed Apr 10 2024)
 
 #### 🐛 Bug Fix
