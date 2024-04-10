@@ -1,6 +1,6 @@
 {
   "name": "@jupiterone/graph-linear",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "An integration and graph conversion project for Linear",
   "repository": {
     "type": "git",
