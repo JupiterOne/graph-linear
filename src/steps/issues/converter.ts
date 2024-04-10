@@ -19,7 +19,7 @@ export const convertIssueEntity = (issue: Issue): Entity => {
         id: issue.identifier,
         name: issue.title,
         description: issue.description,
-        webLink: issue.url,
+        webLink: encodeURI(issue.url),
         priority: issue.priorityLabel,
         estimate: issue.estimate,
         createdAt: parseTimePropertyValue(issue.createdAt),
