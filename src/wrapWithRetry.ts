@@ -46,14 +46,10 @@ export const wrapWithRetry = <F extends () => Promise<any>>({
             endpoint: API_ENDPOINT,
           });
         } else {
-          if (retryCounter === 2) {
-            logger.info(
-              {
-                error,
-              },
-              'Error when trying to fetch resource',
-            );
-          }
+          logger.info('Error when trying to fetch resource', {
+            error,
+          });
+
           throw new IntegrationProviderAPIError({
             status: error.raw?.response?.status as number,
             statusText: error.type as string,
