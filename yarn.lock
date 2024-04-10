@@ -1364,10 +1364,10 @@
   resolved "https://registry.yarnpkg.com/@lifeomic/attempt/-/attempt-3.0.3.tgz#e742a5b85eb673e2f1746b0f39cb932cbc6145bb"
   integrity sha512-GlM2AbzrErd/TmLL3E8hAHmb5Q7VhDJp35vIbyPVA5Rz55LZuRr8pwL3qrwwkVNo05gMX1J44gURKb4MHQZo7w==
 
-"@linear/sdk@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@linear/sdk/-/sdk-7.0.1.tgz#4f24b391457b0f8175376a57224c32b16b94d226"
-  integrity sha512-+t5yW3gHZHOvMCpK4wn7ucC3BATkody3MSL0QxrtL6JaqNPMfdDHYEI8J34A38IBpCudvNCugi5jqOewvwt+jg==
+"@linear/sdk@^19.3.0":
+  version "19.3.0"
+  resolved "https://registry.yarnpkg.com/@linear/sdk/-/sdk-19.3.0.tgz#291897cd0ac891471b1e446e4d09729a367a06a9"
+  integrity sha512-ZIrcyFjv9aNu81w9LlOp42BfEj84YSdQ1oGL++6tL/AnyWqbLoAJUQfYYRga4zcgiXm71ymTM2NPpfxRI78fjg==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.0"
     graphql "^15.4.0"

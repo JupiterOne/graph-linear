@@ -65,6 +65,6 @@
     }
   },
   "dependencies": {
-    "@linear/sdk": "^7.0.1"
+    "@linear/sdk": "^19.3.0"
   }
 }
